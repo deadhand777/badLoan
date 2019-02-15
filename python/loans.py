@@ -65,10 +65,6 @@ import matplotlib.pylab as pylab
 import seaborn as sns
 from pandas.tools.plotting import scatter_matrix
 
-#Configure Visualization Defaults
-# %matplotlib inline = show plots in Jupyter Notebook browser
-# %matplotlib inline
-
 # No warnings about setting value on copy of slice
 pd.options.mode.chained_assignment = None
 
@@ -125,11 +121,6 @@ X = replace_missing_values(df = X)
 
 # replace_missing_values2(data, col)
 
-# def replace_missing_values2(data, col):
-#   data = data.copy()
-#   data[col] = data[col].cat.add_categories('MISSING').fillna('MISSING')
-#   return data
-
 # train test split
 
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X,
@@ -156,8 +147,7 @@ preprocessor = ColumnTransformer(
         ('num', numeric_transformer, numeric_features),
         ('cat', categorical_transformer, categorical_features)])
 
-# Append classifier to preprocessing pipeline.
-# Now we have a full prediction pipeline.
+
 pipe_logistic_regression = Pipeline(steps=[('preprocessor', preprocessor),
                                            ('logReg', LogisticRegression())])
 
@@ -190,28 +180,6 @@ import numpy as np
 y_predicted_lg = pipe_logistic_regression.predict_proba(X_test)[:,1].tolist()
 y_predicted_xg = pipe_XGBoost.predict_proba(X_test)[:,1].tolist()
 y_predicted_nn = pipe_NN.predict_proba(X_test)[:,1].tolist()
-
-from sklearn.metrics import roc_curve, auc
-# false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, y_predicted_nn)
-# roc_auc = auc(false_positive_rate, true_positive_rate)
-# roc_auc
-# 
-# y_empirical = y_test
-# y_predicted = pipe_logistic_regression.predict_proba(X_test)[:,1]
-# y_predicted
-# def roc_curve_plot(y_empirical = y_empirical, y_predicted = y_predicted):
-#     false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, predictedprob_lreg[:,1])
-#     roc_auc = auc(false_positive_rate, true_positive_rate)
-#     plt.title('Receiver Operating Characteristic')
-#     plt.plot(false_positive_rate,true_positive_rate, color='red',label = 'AUC = %0.2f' % roc_auc)
-#     plt.legend(loc = 'lower right')
-#     plt.plot([0, 1], [0, 1],linestyle='--')
-#     plt.axis('tight')
-#     plt.ylabel('True Positive Rate')
-#     plt.xlabel('False Positive Rate')
-#     plt.show()
-# 
-# roc_curve_plot(y_empirical = y_empirical, y_predicted = y_predicted)    
 
 model_list = [
     {
