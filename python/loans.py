@@ -84,7 +84,7 @@ pylab.rcParams['figure.figsize'] = 12,8
 data = pd.read_csv(os.getcwd() + '/data//Data_Import_Template_v1.0-1.csv', sep=";")
 
 # create copy
-data_copy = data_raw.copy(deep=True)
+data_copy = data.copy(deep=True)
 
 # preview data
 data.info()
