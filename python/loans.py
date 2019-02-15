@@ -270,3 +270,25 @@ best_logReg.fit(X_train,y_train)
 best_logReg.coef_ = bestlogreg.named_steps['logReg'].coef_
 best_logReg.score(X_train,y_train)
 pipe_logistic_regression.score(X_test, y_test)
+
+# XgBoost
+pprint(pipe_XGBoost.fit(X_train, y_train).get_params().keys())    
+
+params = {'xgboost__min_child_weight': [1, 5, 10],
+        'xgboost__gamma': [0.5, 1, 1.5, 2, 5],
+        'xgboost__subsample': [0.6, 0.8, 1.0],
+        'xgboost__colsample_bytree': [0.6, 0.8, 1.0],
+        'xgboost__max_depth': [3, 4, 5]}
+
+CV_Xgboost  = GridSearchCV(pipe_XGBoost, param_grid=params, cv=5, verbose=0)
+bestModel_Xgboost = CV_Xgboost.fit(X_train, y_train)
+
+print('Best Min Child Weight:', bestModel_Xgboost.best_estimator_.get_params()['xgboost__min_child_weight'])
+print('Best Gamma:', bestModel_Xgboost.best_estimator_.get_params()['xgboost__gamma'])
+print('Best Colsample Bytree:', bestModel_Xgboost.best_estimator_.get_params()['xgboost__colsample_bytree'])
+print('Best Max Depth:', bestModel_Xgboost.best_estimator_.get_params()['xgboost__max_depth'])
+
+best_Xgboost = bestModel_Xgboost.best_estimator_
+best_Xgboost.fit(X_train,y_train)
+best_Xgboost.coef_ = bestlogreg.named_steps['logReg'].coef_
+best_Xgboost.score(X_train,y_train)
