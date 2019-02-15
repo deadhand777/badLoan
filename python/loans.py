@@ -101,6 +101,8 @@ for col in data.columns.tolist():
     else:
         data[col] = data[col].astype(float)
 
+#data_copy[['JOB', 'REASON']] = data_copy[['JOB', 'REASON']].apply(lambda x: pd.Categorical(x))
+
 # set y and X
 y = data['BAD']
 X = data.drop(columns=['BAD'], axis=1)
@@ -115,11 +117,7 @@ def replace_missing_values(df = data):
 
 X = replace_missing_values(df = X)  
 
-# def replace_missing_values2(data, col):
-#   data[col] = data[col].fillna('MISSING')
-#   return data
-
-# replace_missing_values2(data, col)
+#data_copy.assign(JOB = data_copy.JOB.cat.add_categories('Missing').fillna('Missing'))
 
 # train test split
 
@@ -171,11 +169,6 @@ pipe_NN.fit(X_train, y_train)
 print("model score: %.3f" % pipe_NN.score(X_test, y_test))
 
 # ROC
-
-from sklearn.metrics import roc_curve
-from sklearn.metrics import auc
-import matplotlib.pyplot as plt
-import numpy as np
 
 y_predicted_lg = pipe_logistic_regression.predict_proba(X_test)[:,1].tolist()
 y_predicted_xg = pipe_XGBoost.predict_proba(X_test)[:,1].tolist()
